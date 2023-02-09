@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import BotaoNavegacao from "../BotaoNavegacao"
 import ModalCadastroUsuario from "../ModalCadastroUsuario"
@@ -6,6 +7,10 @@ import usuario from './assets/usuario.svg'
 import './BarraNavegacao.css'
 
 const BarraNavegacao = () => {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const fecharModal = ()=>setModalIsOpen(false);
+
     return (<nav className="ab-navbar">
         <h1 className="logo">
             <Link to="/">
@@ -53,8 +58,9 @@ const BarraNavegacao = () => {
                     texto="Cadastrar-se"
                     textoAltSrc="Icone representando um usuário"
                     imagemSrc={usuario}
+                    onClick={()=>setModalIsOpen(true)}
                 />
-                {/* <ModalCadastroUsuario /> */}
+                {<ModalCadastroUsuario isOpen={modalIsOpen} closeModal={fecharModal} />}
             </li>
         </ul>
     </nav>)
