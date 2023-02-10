@@ -2,14 +2,16 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import BotaoNavegacao from "../BotaoNavegacao"
 import ModalCadastroUsuario from "../ModalCadastroUsuario"
+import ModalLoginUsuario from "../ModalLoginUsuario"
 import logo from './assets/logo.png'
 import usuario from './assets/usuario.svg'
 import './BarraNavegacao.css'
 
 const BarraNavegacao = () => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalCadastroIsOpen, setModalCadastroIsOpen] = useState(false);
+    const [modalLoginIsOpen, setModalLoginIsOpen] = useState(false);
 
-    const fecharModal = ()=>setModalIsOpen(false);
+    const fecharModal = ()=>setModalCadastroIsOpen(false);
 
     return (<nav className="ab-navbar">
         <h1 className="logo">
@@ -51,16 +53,26 @@ const BarraNavegacao = () => {
         </ul>
         <ul className="acoes">
             <li>
-                <BotaoNavegacao texto="Login" textoAltSrc="Icone representando um usuário" imagemSrc={usuario} />
+                <BotaoNavegacao 
+                    texto="Login"
+                    textoAltSrc="Icone representando um usuário"
+                    imagemSrc={usuario} 
+                    onClick={()=>setModalLoginIsOpen(true)}
+                />
+                <ModalLoginUsuario 
+                    aberta={modalLoginIsOpen}
+                    aoFechar={()=>setModalLoginIsOpen(false)}
+                    aoEfetuarLogin={()=>{}}
+                />
             </li>
             <li>
                 <BotaoNavegacao
                     texto="Cadastrar-se"
                     textoAltSrc="Icone representando um usuário"
                     imagemSrc={usuario}
-                    onClick={()=>setModalIsOpen(true)}
+                    onClick={()=>setModalCadastroIsOpen(true)}
                 />
-                {<ModalCadastroUsuario isOpen={modalIsOpen} closeModal={fecharModal} />}
+                {<ModalCadastroUsuario isOpen={modalCadastroIsOpen} closeModal={fecharModal} />}
             </li>
         </ul>
     </nav>)
