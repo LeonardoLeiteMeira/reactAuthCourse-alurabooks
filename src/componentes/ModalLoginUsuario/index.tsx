@@ -1,6 +1,7 @@
 import axios from "axios"
 import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks"
 import { useState } from "react"
+import useSaveToken from "../../hooks/useSaveToken"
 
 import imagemPrincipal from './assets/login.png'
 
@@ -17,6 +18,8 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
+    const saveToken = useSaveToken()
+
     const aoSubmeterFormular = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault()
         const usuario = {
@@ -25,13 +28,17 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
         }
         axios.post("http://localhost:8000/public/login",usuario)
             .then((result)=>{
-                sessionStorage.setItem('token', result.data.access_token)
+                saveToken(result.data.access_token)
                 alert("Sucesso")
                 console.log(result)
                 aoFechar()
             })
             .catch((err)=>{
-                alert("error")
+                if(err?.response?.data?.message){
+                    alert(err?.response?.data?.message)
+                }else{
+                    alert("Erro interno")
+                }
                 console.log(err)
             })
         console.log(usuario)
