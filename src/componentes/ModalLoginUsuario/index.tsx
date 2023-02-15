@@ -28,6 +28,7 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
         }
         axios.post("http://localhost:8000/public/login",usuario)
             .then((result)=>{
+                aoEfetuarLogin()
                 saveToken(result.data.access_token)
                 alert("Sucesso")
                 console.log(result)

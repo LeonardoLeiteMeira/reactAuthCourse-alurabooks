@@ -33,7 +33,7 @@ const ModalCadastroUsuario = ({closeModal,isOpen}:Props) => {
         }
 
         axios.post("http://localhost:8000/public/registrar", usuario)
-            .then((response)=>{
+            .then((_)=>{
                 alert("Usuario criado")
                 setNome("")
                 setEmail("")
