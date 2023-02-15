@@ -60,7 +60,7 @@ const BarraNavegacao = () => {
             </li>
         </ul>
         <ul className="acoes">
-            {isLoggedIn?(<Link to={""}>Minha Conta</Link>): (
+            {isLoggedIn?(<Link to={"/minha-conta"}>Minha Conta</Link>): (
                 <>
                     <li>
                         <BotaoNavegacao 
