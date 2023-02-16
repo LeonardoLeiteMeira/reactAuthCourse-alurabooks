@@ -1,7 +1,7 @@
-import axios from "axios"
 import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks"
 import { useState } from "react"
 import useSaveToken from "../../hooks/useSaveToken"
+import http from "../Http"
 
 import imagemPrincipal from './assets/login.png'
 
@@ -26,7 +26,7 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
             email,
             senha,
         }
-        axios.post("http://localhost:8000/public/login",usuario)
+        http.post("/public/login",usuario)
             .then((result)=>{
                 aoEfetuarLogin()
                 saveToken(result.data.access_token)

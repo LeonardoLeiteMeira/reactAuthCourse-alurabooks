@@ -1,6 +1,6 @@
-import axios from "axios"
 import { AbBotao } from "ds-alurabooks"
 import { useEffect, useState } from "react"
+import http from "../../componentes/Http"
 import useGetToken from "../../hooks/useGetToken"
 import { IPedido } from "../../interfaces/IPedido"
 import "./Pedidos.css"
@@ -11,22 +11,17 @@ const Pedidos = ()=>{
     const currencyFormat = Intl.NumberFormat("pt-br",{style:"currency", currency:"BRL"});
 
     useEffect(()=>{
-        axios.get<Array<IPedido>>("http://localhost:8000/pedidos", {
-            headers:{
-                "Authorization": "Bearer "+token
-            }
-        }).then((resp)=>{
+        http.get<Array<IPedido>>("/pedidos").then((resp)=>{
             let data:Array<IPedido> = resp.data
             setListaPedidos(data)
-        }).catch((err)=>alert("Erro ao carregar pedidos"))
+        }).catch((err)=>{
+            console.log(err)
+            alert("Erro ao carregar pedidos")
+        })
     },[])
 
     const deletePedido = (pedidoId:number)=>{
-        axios.delete("http://localhost:8000/pedidos/"+pedidoId,{
-            headers:{
-                "Authorization":"Bearer "+token
-            }
-        }).then((_)=>{
+        http.delete("/pedidos/"+pedidoId).then((_)=>{
             setListaPedidos(listaPedidos.filter((pedido)=>pedido.id!==pedidoId))
         }).catch((err)=>{
             console.log(err)
