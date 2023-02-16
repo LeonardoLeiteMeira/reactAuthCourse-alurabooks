@@ -1,3 +1,5 @@
 export default function useCleanToken () {
-    sessionStorage.removeItem('token');
+    return ()=>{
+        sessionStorage.removeItem('token');
+    }
 };

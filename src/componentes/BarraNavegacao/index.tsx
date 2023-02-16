@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import useCleanToken from "../../hooks/useCleanToken"
 import useGetToken from "../../hooks/useGetToken"
 import BotaoNavegacao from "../BotaoNavegacao"
 import ModalCadastroUsuario from "../ModalCadastroUsuario"
@@ -12,12 +13,20 @@ const BarraNavegacao = () => {
     const [modalCadastroIsOpen, setModalCadastroIsOpen] = useState(false);
     const [modalLoginIsOpen, setModalLoginIsOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(useGetToken()!==null)
+    const navigator = useNavigate()
 
     const fecharModal = ()=>setModalCadastroIsOpen(false);
+    const clearToken = useCleanToken();
 
     const aoEfetuarLogin = ()=>{
         setIsLoggedIn(true)
         setModalLoginIsOpen(false)
+    }
+
+    const logout = ()=>{
+        setIsLoggedIn(false)
+        clearToken()
+        navigator("/")
     }
 
 
@@ -60,7 +69,20 @@ const BarraNavegacao = () => {
             </li>
         </ul>
         <ul className="acoes">
-            {isLoggedIn?(<Link to={"/minha-conta"}>Minha Conta</Link>): (
+            {isLoggedIn?
+                (
+                    <>
+                        <Link to={"/minha-conta"}>
+                            Minha Conta
+                        </Link>
+                        <BotaoNavegacao 
+                            texto="Logout"
+                            textoAltSrc="Icone representando um usuário"
+                            imagemSrc={usuario} 
+                            onClick={logout}
+                        />
+                    </>
+                ): (
                 <>
                     <li>
                         <BotaoNavegacao 
